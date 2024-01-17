@@ -17,7 +17,7 @@ Le repot est composé de 1 dossier:
 - Disposer d'un cluster 
 
 
-### Deploiement
+## Deploiement
 
   - Accéder à Cloud Shell et cloner le repot
   - Si ce n'est pas déjà fait, ce connecter au cluster
