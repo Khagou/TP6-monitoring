@@ -8,35 +8,33 @@ L'ensemble du repot permet de déployer Elastic Cloud for Kubernetes sur un clus
 
 Le repot est composé de 1 dossier:
 - Le fichier **ingress** sert à exposer grafana
-- Le fichier **fleet.yml** qui déploie elastic, kibana, fleet et nginx
-  - d'un fichier **cloudbuild.yml** qui permets de lancer le déploiement avec cloudbuild
-- Le script **prod.sh** qui ce connecte au cluster, ajoute les droits au compte de service **<numero_de_projet>@cloudbuild.gserviceaccount.com** et lance le deploiement de ECK et Nginx
+- Le fichier **mysql.yml** qui déploie MySQL
+- Le fichier **nginx.yml** qui permets de déployer nginx
 
 ## Prerequis
 
 - Disposer d'un compte de facturation GCP
-- Disposer d'un cluster avec des nodes sur des type de machines e2-standard-2
-- Disposer d'un bucket
-- Avoir activé l'API cloudbuild
-
+- Disposer d'un cluster 
 
 
 ### Deploiement
 
   - Accéder à Cloud Shell et cloner le repot
-  - Ouvrir l'éditeur et modifier l'ensemble des variable du script **prod.sh**
-  - DAns le fichier cloudbuild.yml modifier la location et le cluster
-  - Ouvrir un terminal dans l'editeur et lancer la commande 
+  - Si ce n'est pas déjà fait, ce connecter au cluster
+  - Puis lancer la commande
       ```
-      sh prod.sh
+      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      helm repo update
       ```
-  - Dans la console GCP accéder aux charges de travail de votre cluster et attendez que tout les **Etat** soient vert
-  - Lancez maintenant la commande suivatent pour recupérer le mot de passe pour accéder à Kibana
+  - Lancez maintenant la commande suivate pour installer prometheus
       ```
-      kubectl get secret elasticsearch-quickstart-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
+      helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack
       ```
-  - Dans vos charges de travail ouvrez la suivante ***kibana-quickstart-kb*** et dans la section **Services associés** cliquez sur le point de terminaison, 
-     une nouvelle page s'ouvre avec une erreur cette page ne fonctionne pas rajouter https:// au debut de l'url tel que par exemple **https://34.16.25.221:5601/**.
-  - Identifiant Kibana
-      user: elastic
-      mdp: le mot de passe que vous avez recupéré précédemment
+  - Dans vos charges de travail ouvrez la suivante ***<release_name>-grafana*** et dans la section **Services associés** cliquez sur le point de terminaison, 
+     une nouvelle page s'ouvre et affiche le menu de connexion de grafana.
+  - Identifiant Grafana
+      user: admin
+      mdp: prom-operator
+  - Une fois connecté accédez au menu dashboard, vous constaterez alors la présence de nombreux dashboards offrant de nombreuses metrics sur votre cluster, vos noeuds, pods ...
+    Si vous accédez maintenant au menu Alerting vous constaterez la présence de nombreuses alertes pré-configuré. 
+    Vous pouvez biensur personnaliser les alertes et les dashboards.
