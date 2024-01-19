@@ -4,7 +4,7 @@
 
 Il est demande de mettre en place une solution de monitoring centralié pour stocker les métriques et fournir des tableaux de bord de surveillance.
 
-L'ensemble du repot permet de déployer Elastic Cloud for Kubernetes sur un cluster GKE.
+L'ensemble du repot permet de déployer Elastic Cloud for Kubernetes dans un cluster GKE.
 
 Le repot est composé de 1 dossier:
 - Le fichier **ingress** sert à exposer grafana
