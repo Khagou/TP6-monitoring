@@ -1,4 +1,4 @@
-# TP6 Mise en place d’une solution de supervision d’applications contenerisées basées sur prometheus et grafana
+# TP6 Mise en place d’une solution de supervision d’applications contenerisées basées sur prometheus et grafana sur GCP
 
 ## Contexte et composition du repot
 
